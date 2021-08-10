@@ -1,0 +1,18 @@
+annotations:
+  category: DeveloperTools
+apiVersion: v2
+appVersion: 15.0.1
+description: Keycloak.X is a high performance Java-based identity and access management solution. It lets developers add an authentication layer to their applications with minimum effort.
+home: https://www.keycloak.org
+icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+keywords:
+  - keycloak
+  - keycloak-x
+  - access-management
+maintainers:
+  - email: arthur.woimbee@gmail.com
+    name: awoimbee
+name: keycloak-x
+sources:
+  - https://github.com/keycloak/keycloak
+version: 0.0.1
