@@ -1,0 +1,42 @@
+apiVersion: v1
+entries:
+  keycloak-x:
+  - annotations:
+      category: DeveloperTools
+    apiVersion: v2
+    appVersion: 15.0.1
+    created: "2021-08-13T14:14:03.251499393Z"
+    description: Keycloak.X is a high performance Java-based identity and access management
+      solution. It lets developers add an authentication layer to their applications
+      with minimum effort.
+    digest: 96e07d47cd39f953c87cb2688644e87745dc10febf72192fab3c13f69a08886e
+    home: https://www.keycloak.org
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - keycloak
+    - keycloak-x
+    - access-management
+    maintainers:
+    - email: arthur.woimbee@gmail.com
+      name: awoimbee
+    name: keycloak-x
+    sources:
+    - https://github.com/keycloak/keycloak
+    urls:
+    - https://github.com/awoimbee/helm-charts/releases/download/keycloak-x-0.0.1/keycloak-x-0.0.1.tgz
+    version: 0.0.1
+  metabase:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2021-08-13T14:14:03.486801977Z"
+    description: The simplest, fastest way to get business intelligence and analytics
+      to everyone in your company
+    digest: 01be9e9427b3bf91f73430d7c40968729ad52adc07aef0671793f7aeb4641152
+    home: http://www.metabase.com/
+    icon: http://www.metabase.com/images/logo.svg
+    name: metabase
+    type: application
+    urls:
+    - https://github.com/awoimbee/helm-charts/releases/download/metabase-0.1.0/metabase-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-08-13T14:14:03.486806577Z"
