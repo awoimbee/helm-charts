@@ -1,5 +1,7 @@
 # Metabase Helm Chart
 
+Chart from https://github.com/metabase/metabase/pull/16603
+
 This page covers using the official Metabase Helm Chart for running Metabase. For docs on deploying Metabase with Kubernetes, check out [Running Metabase on Kubernetes](https://metabase.com/docs/latest/operations-guide/running-metabase-on-kubernetes.html).
 
 To package this chart, run:
