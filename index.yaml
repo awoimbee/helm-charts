@@ -28,6 +28,19 @@ entries:
   metabase:
   - apiVersion: v2
     appVersion: latest
+    created: "2021-09-21T15:26:45.178066096Z"
+    description: The simplest, fastest way to get business intelligence and analytics
+      to everyone in your company
+    digest: 1763ad2f0b120c2ec2283ef4ec67ea695e91a7503b3b13c92b90c719988a34e9
+    home: http://www.metabase.com/
+    icon: http://www.metabase.com/images/logo.svg
+    name: metabase
+    type: application
+    urls:
+    - https://github.com/awoimbee/helm-charts/releases/download/metabase-1.0.0/metabase-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2021-08-13T14:14:03.486801977Z"
     description: The simplest, fastest way to get business intelligence and analytics
       to everyone in your company
@@ -39,4 +52,4 @@ entries:
     urls:
     - https://github.com/awoimbee/helm-charts/releases/download/metabase-0.1.0/metabase-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-13T14:14:03.486806577Z"
+generated: "2021-09-21T15:26:45.178073996Z"
