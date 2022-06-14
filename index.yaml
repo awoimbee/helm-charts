@@ -65,4 +65,15 @@ entries:
     urls:
     - https://github.com/awoimbee/helm-charts/releases/download/metabase-0.0.1/metabase-0.0.1.tgz
     version: 0.0.1
-generated: "2021-09-21T15:31:02.010826414Z"
+  trow:
+  - apiVersion: v2
+    appVersion: 0.3.4
+    created: "2022-06-14T13:02:38.841339381Z"
+    description: Helm chart for Trow registry
+    digest: 36e036294c8de922114c2fa2a1d923d5440ce42c740934b553321850f7198f81
+    name: trow
+    type: application
+    urls:
+    - https://github.com/awoimbee/helm-charts/releases/download/trow-0.3.4/trow-0.3.4.tgz
+    version: 0.3.4
+generated: "2022-06-14T13:02:38.841354782Z"
