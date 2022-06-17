@@ -5,32 +5,48 @@
 replicaCount: 1
 
 image:
-  repository: containersol/trow
+  repository: awoimbee/trow
+  tag: 17-06-2022-0
   pullPolicy: Always
 
 trow:
+  ## if using NodePort, this can be set to 127.0.0.1:XXXX
   domain: myregistry.mydomain.io
   # user: user
   # password: password
   validation:
-    enabled: false
-    allowDocker: false
-    allowKubernetes: true
-    allowPrefixes: []
-    allowImages: []
-    disallowLocalPrefixes: []
-    disallowLocalImages: []
-  # proxyRegistries: |
-  #   - alias: docker
-  #     host: registry-1.docker.io
-  #   - alias: nvcr
-  #     host: https://nvcr.io
+    enableWebhook: false
+    ## Ignore or Fail
+    onWebhookFailure: Ignore
+    ## The validation webhook need to be configured.
+    ## Note: it runs AFTER mutation webhooks.
+    ## Example:
+    config:
+      default: Deny # Deny or Allow
+      allow:
+        - 127.0.0.1
+      deny: []
+  proxyConfig:
+    enableWebhook: false
+    ## Ignore or Fail
+    onWebhookFailure: Ignore
+    config:
+      - alias: docker
+        host: registry-1.docker.io
+      - alias: nvcr
+        host: https://nvcr.io
+      - alias: quay
+        host: quay.io
+      # - alias: toto
+      #  host: http://toto.land
 
-
+webhookPatch:
+  image:
+    image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1
+    pullPolicy: IfNotPresent
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
 
 service:
   type: NodePort
@@ -75,4 +91,3 @@ volumeClaim:
   resources:
     requests:
       storage: 20Gi
-
