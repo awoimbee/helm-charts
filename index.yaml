@@ -68,6 +68,16 @@ entries:
   trow:
   - apiVersion: v2
     appVersion: 0.4.0
+    created: "2022-06-17T09:07:01.88606876Z"
+    description: Helm chart for Trow registry
+    digest: 7606ce6242a3e43d4b473195bc5c4ea89694e9963632e54956549180f79b5e23
+    name: trow
+    type: application
+    urls:
+    - https://github.com/awoimbee/helm-charts/releases/download/trow-0.4.1/trow-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
+    appVersion: 0.4.0
     created: "2022-06-17T08:55:12.99975217Z"
     description: Helm chart for Trow registry
     digest: 8be3602abfebc30b5a2c3dfb1d4c143a7b6ce4825ffbda7ce4ad43fd4a14157c
@@ -86,4 +96,4 @@ entries:
     urls:
     - https://github.com/awoimbee/helm-charts/releases/download/trow-0.3.4/trow-0.3.4.tgz
     version: 0.3.4
-generated: "2022-06-17T08:55:12.999772871Z"
+generated: "2022-06-17T09:07:01.88608226Z"
