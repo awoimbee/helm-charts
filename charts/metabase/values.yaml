@@ -4,7 +4,7 @@ image:
   repository: metabase/metabase
   pullPolicy: IfNotPresent
   command: []
-  tag: "v{{ .Chart.AppVersion }}"
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
