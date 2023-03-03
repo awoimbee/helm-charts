@@ -27,6 +27,10 @@ spec:
       serviceAccountName: {{ include "metabase.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{ toYaml .Values.initContainers | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -46,7 +50,7 @@ spec:
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /api/health
               port: {{ .Values.service.internalPort }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
@@ -59,6 +63,9 @@ spec:
           - name: {{ include "metabase.fullname" . }}-secrets
             mountPath: /etc/secret
             readOnly: true
+          {{- if .Values.extraVolumeMounts -}}
+          {{ toYaml .Values.extraVolumeMounts | nindent 10 }}
+          {{- end }}
           {{- if .Values.extraArgs }}
           args:
           {{- range $key, $value := .Values.extraArgs }}
@@ -78,7 +85,7 @@ spec:
               configMapKeyRef:
                 name: {{ include "metabase.fullname" . }}-configs
                 key: MB_JETTY_PORT
-          {{- if and (ne .Values.config.database.type "h2") (.Values.secrets.database.host) (or .Values.secrets.database.password .Values.secrets.existingSecret.existingSecretPasswordKey) (or .Values.secrets.database.username .Values.secrets.existingSecret.existingSecretUsernameKey) (.Values.secrets.database.port) (.Values.secrets.database.dbName) }}
+          {{- if and (ne .Values.config.database.type "h2") (.Values.secrets.database.host) (or .Values.secrets.database.password .Values.secrets.existingSecret.passwordKey) (or .Values.secrets.database.username .Values.secrets.existingSecret.usernameKey) (.Values.secrets.database.port) (.Values.secrets.database.dbName) }}
           - name: MB_DB_TYPE
             valueFrom:
               configMapKeyRef:
@@ -89,12 +96,12 @@ spec:
               secretKeyRef:
                 name: {{ include "metabase.fullname" . }}-secrets
                 key: MB_DB_HOST
-          {{- if .Values.secrets.existingSecret.existingSecretPasswordKey }}
+          {{- if .Values.secrets.existingSecret.passwordKey }}
           - name: MB_DB_PASS
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.secrets.existingSecret.existingSecretName }}-existingSecrets
-                key: {{ .Values.secrets.existingSecret.existingSecretPasswordKey }}
+                name: {{ .Values.secrets.existingSecret.name }}
+                key: {{ .Values.secrets.existingSecret.passwordKey }}
           {{ else }}
           - name: MB_DB_PASS
             valueFrom:
@@ -102,12 +109,12 @@ spec:
                 name: {{ include "metabase.fullname" . }}-secrets
                 key: MB_DB_PASS
           {{- end }}
-          {{- if .Values.secrets.existingSecret.existingSecretUsernameKey }}
+          {{- if .Values.secrets.existingSecret.usernameKey }}
           - name: MB_DB_USER
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.secrets.existingSecret.existingSecretName }}-existingSecrets
-                key: {{ .Values.secrets.existingSecret.existingSecretUsernameKey }}
+                name: {{ .Values.secrets.existingSecret.name }}
+                key: {{ .Values.secrets.existingSecret.usernameKey }}
           {{ else }}
           - name: MB_DB_USER
             valueFrom:
@@ -126,13 +133,13 @@ spec:
                 name: {{ include "metabase.fullname" . }}-secrets
                 key: MB_DB_PORT
           {{- end }}
-          {{- if and (ne .Values.config.database.type "h2") (or .Values.secrets.database.connString .Values.secrets.existingSecret.existingSecretConnectionURIKey)}}
-          {{- if .Values.secrets.existingSecret.existingSecretConnectionURIKey }}
+          {{- if and (ne .Values.config.database.type "h2") (or .Values.secrets.database.connString .Values.secrets.existingSecret.connectionURIKey)}}
+          {{- if .Values.secrets.existingSecret.connectionURIKey }}
           - name: MB_DB_CONNECTION_URI
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.secrets.existingSecret.existingSecretName }}-existingSecrets
-                key: {{ .Values.secrets.existingSecret.existingSecretConnectionURIKey }}
+                name: {{ .Values.secrets.existingSecret.name }}
+                key: {{ .Values.secrets.existingSecret.connectionURIKey }}
           {{ else }}
           - name: MB_DB_CONNECTION_URI
             valueFrom:
@@ -221,7 +228,7 @@ spec:
           - name: MB_API_KEY
             valueFrom:
               secretKeyRef:
-                name: {{ include "metabase.fullname" . }}-configs
+                name: {{ include "metabase.fullname" . }}-secrets
                 key: MB_API_KEY
           {{- end }}
           {{- if .Values.config.application.favicon_url }}
@@ -307,6 +314,13 @@ spec:
               configMapKeyRef:
                 name: {{ include "metabase.fullname" . }}-configs
                 key: MB_EMBEDDING_APP_ORIGIN
+          {{- end }}
+          {{- if .Values.config.application.embeddingSameSiteCookie }}
+          - name: MB_SESSION_COOKIE_SAMESITE
+            valueFrom:
+              configMapKeyRef:
+                name: {{ include "metabase.fullname" . }}-configs
+                key: MB_SESSION_COOKIE_SAMESITE
           {{- end }}
           {{- if .Values.secrets.config.embeddingToken }}
           - name: MB_PREMIUM_EMBEDDING_TOKEN
@@ -843,10 +857,13 @@ spec:
         - name: {{ include "metabase.fullname" . }}-secrets
           secret:
             secretName: {{ include "metabase.fullname" . }}-secrets
-        {{ if .Values.secrets.existingSecret.existingSecretName }}
-        - name: {{ .Values.secrets.existingSecret.existingSecretName }}-existingSecrets
+        {{ if .Values.secrets.existingSecret.name }}
+        - name: {{ .Values.secrets.existingSecret.name }}
           secret:
-            secretName: {{ .Values.secrets.existingSecret.existingSecretName }}-existingSecrets
+            secretName: {{ .Values.secrets.existingSecret.name }}
+        {{- end }}
+        {{- if .Values.extraVolumes -}}
+        {{ toYaml .Values.extraVolumes | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
